@@ -1,4 +1,4 @@
-name: Playwright Smoke Tests
+name: Playwright Tests Smoke
 on:
   workflow_dispatch:
 jobs:
@@ -12,12 +12,11 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Install system dependencies for Playwright (Ubuntu 24.04 fix)
-      run: sudo apt-get update && sudo apt-get install -y \
-        libasound2t64 libffi8 libx264-164 libnss3 libatk1.0-0 libcups2 libxcomposite1 libxdamage1 \
-        libxfixes3 libxrandr2 libxkbcommon0 libpango-1.0-0 libgbm1 libatspi2.0-0
+    # ✅ Automatically install the correct browser dependencies (works on Ubuntu 24.04)
+    - name: Install Playwright System Dependencies
+      run: npx playwright install-deps
 
-    - name: Install Playwright browsers
+    - name: Install Playwright Browsers
       run: npx playwright install
 
     - name: Run Playwright tests
